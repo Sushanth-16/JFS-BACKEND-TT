@@ -9,23 +9,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin(origins="*")
 public class UserController {
-    @Autowired 
+
+    @Autowired
     UserRepository ur;
 
     @GetMapping("/demo")
     String demo(){
         return "Hello World";
     }
+
+    // FIXED
     @GetMapping("/users")
-    String getUsers(){
-        return "Hello users ";
+    List<Users> getUsers(){
+        return ur.findAll();
     }
+
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody Users user) {
-        this.ur.save(user);
+        ur.save(user);
         return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
     }
 }
